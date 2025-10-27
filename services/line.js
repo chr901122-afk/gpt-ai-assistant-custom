@@ -1,7 +1,7 @@
 import { t } from '../locales/index.js';
 import config from '../config/index.js';
 import { COMMAND_BOT_CONTINUE, COMMAND_BOT_FORGET, COMMAND_BOT_TALK } from '../app/commands/index.js';
-import Context from '../context.js';
+import Context from '../app/context.js';
 import { updateHistory } from '../history/index.js';
 import { getPrompt, setPrompt } from '../prompt/index.js';
 import { runAssistant } from '../../services/openai.js'; // ✅ 新增這行
