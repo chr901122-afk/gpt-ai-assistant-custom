@@ -1,5 +1,5 @@
 import { encode } from 'gpt-3-encoder';
-import config from '../config/index.js';
+import config from '../../config/index.js';
 import { t } from '../../locales/index.js';
 import { addMark } from '../../utils/index.js';
 import Message from './message.js';
