@@ -71,7 +71,6 @@ const createImage = ({
   quality = config.OPENAI_IMAGE_GENERATION_QUALITY,
   n = 1,
 }) => {
-  // set image size to 1024 when using the DALL-E 3 model and the requested size is 256 or 512.
   if (model === MODEL_DALL_E_3 && [IMAGE_SIZE_256, IMAGE_SIZE_512].includes(size)) {
     size = IMAGE_SIZE_1024;
   }
@@ -98,31 +97,21 @@ const createAudioTranscriptions = ({
   });
 };
 
-export {
-  createAudioTranscriptions,
-  createChatCompletion,
-  createImage,
-};
-
 /**
  * 呼叫 OpenAI Assistant API (asst_xxx)
- * 使用你的 Assistant ID 來自動處理回答
  */
 const runAssistant = async (userMessage) => {
   try {
-    // Step 1: 建立 thread
     const threadRes = await client.post('/v1/threads', {
       messages: [{ role: 'user', content: userMessage }],
     });
     const threadId = threadRes.data.id;
 
-    // Step 2: 啟動 Assistant
     const runRes = await client.post(`/v1/threads/${threadId}/runs`, {
       assistant_id: config.OPENAI_ASSISTANT_ID,
     });
     const runId = runRes.data.id;
 
-    // Step 3: 等待完成
     let runStatus = 'in_progress';
     while (runStatus !== 'completed' && runStatus !== 'failed') {
       await new Promise((r) => setTimeout(r, 1000));
@@ -134,7 +123,6 @@ const runAssistant = async (userMessage) => {
       return '⚠️ Assistant 執行失敗。';
     }
 
-    // Step 4: 取得回覆訊息
     const messagesRes = await client.get(`/v1/threads/${threadId}/messages`);
     const messages = messagesRes.data.data;
     const lastMsg = messages[0].content[0].text.value;
@@ -145,9 +133,11 @@ const runAssistant = async (userMessage) => {
   }
 };
 
+// ✅ 最終只保留這一段 export
 export {
   createAudioTranscriptions,
   createChatCompletion,
   createImage,
-  runAssistant, // ✅ 新增這個
+  runAssistant,
 };
+
