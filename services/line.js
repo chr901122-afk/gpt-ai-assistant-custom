@@ -1,10 +1,16 @@
-import { t } from '../locales/index.js';
+import axios from 'axios';
 import config from '../config/index.js';
+import { t } from '../locales/index.js';
+
+// ✅ 修正所有 app 相關模組的路徑
 import { COMMAND_BOT_CONTINUE, COMMAND_BOT_FORGET, COMMAND_BOT_TALK } from '../app/commands/index.js';
 import Context from '../app/context.js';
-import { updateHistory } from '../history/index.js';
-import { getPrompt, setPrompt } from '../prompt/index.js';
-import { runAssistant } from '../../services/openai.js'; // ✅ 新增這行
+import { updateHistory } from '../app/history/index.js';
+import { getPrompt, setPrompt } from '../app/prompt/index.js';
+
+// ✅ 同層級 service 引用保持不動
+import { runAssistant } from '../services/openai.js';
+
 
 /**
  * @param {Context} context
