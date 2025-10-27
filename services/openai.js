@@ -103,3 +103,51 @@ export {
   createChatCompletion,
   createImage,
 };
+
+/**
+ * 呼叫 OpenAI Assistant API (asst_xxx)
+ * 使用你的 Assistant ID 來自動處理回答
+ */
+const runAssistant = async (userMessage) => {
+  try {
+    // Step 1: 建立 thread
+    const threadRes = await client.post('/v1/threads', {
+      messages: [{ role: 'user', content: userMessage }],
+    });
+    const threadId = threadRes.data.id;
+
+    // Step 2: 啟動 Assistant
+    const runRes = await client.post(`/v1/threads/${threadId}/runs`, {
+      assistant_id: config.OPENAI_ASSISTANT_ID,
+    });
+    const runId = runRes.data.id;
+
+    // Step 3: 等待完成
+    let runStatus = 'in_progress';
+    while (runStatus !== 'completed' && runStatus !== 'failed') {
+      await new Promise((r) => setTimeout(r, 1000));
+      const check = await client.get(`/v1/threads/${threadId}/runs/${runId}`);
+      runStatus = check.data.status;
+    }
+
+    if (runStatus === 'failed') {
+      return '⚠️ Assistant 執行失敗。';
+    }
+
+    // Step 4: 取得回覆訊息
+    const messagesRes = await client.get(`/v1/threads/${threadId}/messages`);
+    const messages = messagesRes.data.data;
+    const lastMsg = messages[0].content[0].text.value;
+    return lastMsg || '⚠️ 無法取得 Assistant 回覆。';
+  } catch (err) {
+    console.error('[OpenAI Assistant Error]', err.response?.data || err.message);
+    return '⚠️ 無法連線至 OpenAI Assistant API。';
+  }
+};
+
+export {
+  createAudioTranscriptions,
+  createChatCompletion,
+  createImage,
+  runAssistant, // ✅ 新增這個
+};
