@@ -23,15 +23,17 @@ app.get('/', async (req, res) => {
   res.status(200).send({ status: 'OK', currentVersion, latestVersion });
 });
 
-app.post(config.'/webhook', validateLineSignature, async (req, res) => {
+// ✅ 固定 webhook 路徑
+app.post('/webhook', validateLineSignature, async (req, res) => {
   try {
     await storage.initialize();
     await handleEvents(req.body.events);
     res.sendStatus(200);
   } catch (err) {
-    console.error(err.message);
+    console.error('[Webhook Error]', err.message);
     res.sendStatus(500);
   }
+
   if (config.APP_DEBUG) printPrompts();
 });
 
@@ -40,3 +42,4 @@ if (config.APP_PORT) {
 }
 
 export default app;
+
