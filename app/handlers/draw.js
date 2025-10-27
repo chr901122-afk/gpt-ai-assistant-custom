@@ -1,4 +1,4 @@
-import config from '../../config/index.js';
+import config from '../config/index.js';
 import { MOCK_TEXT_OK } from '../../constants/mock.js';
 import { ROLE_AI, ROLE_HUMAN } from '../../services/openai.js';
 import { generateImage } from '../../utils/index.js';

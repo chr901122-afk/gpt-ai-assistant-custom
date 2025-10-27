@@ -1,4 +1,4 @@
-import config from '../../config/index.js';
+import config from '../config/index.js';
 import { t } from '../../locales/index.js';
 import { deploy } from '../../services/vercel.js';
 import { COMMAND_SYS_DEPLOY } from '../commands/index.js';

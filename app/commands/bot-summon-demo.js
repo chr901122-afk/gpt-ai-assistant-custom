@@ -1,4 +1,4 @@
-import config from '../../config/index.js';
+import config from '../config/index.js';
 import { TYPE_SYSTEM } from '../../constants/command.js';
 import { t } from '../../locales/index.js';
 import Command from './command.js';

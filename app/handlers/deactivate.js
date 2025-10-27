@@ -1,4 +1,4 @@
-import config from '../../config/index.js';
+import config from '../config/index.js';
 import { t } from '../../locales/index.js';
 import { COMMAND_BOT_DEACTIVATE, GENERAL_COMMANDS } from '../commands/index.js';
 import Context from '../context.js';

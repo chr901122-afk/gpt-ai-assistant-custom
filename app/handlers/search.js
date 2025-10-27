@@ -1,4 +1,4 @@
-import config from '../../config/index.js';
+import config from '../config/index.js';
 import { t } from '../../locales/index.js';
 import { ROLE_AI, ROLE_HUMAN } from '../../services/openai.js';
 import { fetchAnswer, generateCompletion } from '../../utils/index.js';
