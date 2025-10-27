@@ -9,7 +9,8 @@ import { updateHistory } from '../app/history/index.js';
 import { getPrompt, setPrompt } from '../app/prompt/index.js';
 
 // ✅ 同層級 service 引用保持不動
-import { runAssistant } from '../services/openai.js';
+import { runAssistant, ROLE_AI, ROLE_HUMAN } from '../services/openai.js';
+
 
 
 /**
